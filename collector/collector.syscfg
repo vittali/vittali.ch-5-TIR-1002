@@ -6,8 +6,6 @@
 var RF = scripting.addModule("/ti/drivers/RF");
 var Power = scripting.addModule("/ti/drivers/Power");
 var CCFG = scripting.addModule("/ti/devices/CCFG");
-var Board = scripting.addModule("/ti/drivers/Board");
-var DriverLib = scripting.addModule("/ti/devices/DriverLib");
 var Display = scripting.addModule("/ti/display/Display");
 var Display1 = Display.addInstance();
 var LED = scripting.addModule("/ti/drivers/apps/LED");
@@ -20,11 +18,11 @@ var NVS = scripting.addModule("/ti/drivers/NVS");
 var NVS1 = NVS.addInstance();
 var AESCCM = scripting.addModule("/ti/drivers/AESCCM");
 var AESCCM1 = AESCCM.addInstance();
-var DMA = scripting.addModule("/ti/drivers/DMA");
 var ti154stack = scripting.addModule("/ti/ti154stack/ti154stack");
-var multi_stack_validate = scripting.addModule("/ti/easylink/multi_stack_validate");
 // Use Hardware - Select the hardware to use, or 'None' to use available header pins
 RF.$hardware = system.deviceData.board.components["SKY13317-373LF"];
+var Board = scripting.addModule("/ti/drivers/Board");
+var DriverLib = scripting.addModule("/ti/devices/DriverLib");
 // Enable XOSC Cap array modification - Enable modification (delta) to XOSC cap-array
 CCFG.xoscCapArray = true;
 // XOSC Cap Array Delta - Modify the high frequency oscillator cap-array, changing the frequency offset
@@ -104,19 +102,19 @@ NVS1.$name = "CONFIG_NVSINTERNAL";
 // Name
 NVS1.internalFlash.$name = "ti_drivers_nvs_NVSCC26XX0";
 // Region Base - Base address of the region. Must be aligned on an integer multiple of the sector size.
-NVS1.internalFlash.regionBase = 0x52000;
+NVS1.internalFlash.regionBase = 0x4E000;
 // Region Size - Size of the region in bytes. Must be a non-zero multiple of the Sector Size
-NVS1.internalFlash.regionSize = 0x4000;
+NVS1.internalFlash.regionSize = 0x8000;
 // Name
 AESCCM1.$name = "CONFIG_AESCCM_0";
-// Device Role - Configures project type for device configuration
-ti154stack.project = "sensor";
+var DMA = scripting.addModule("/ti/drivers/DMA");
 // Lock Project Type - Sets project and frequency band to read-only. Should always be hidden
 ti154stack.lockProject = true;
 // Sub-1 GHz Frequency - Configures the Sub-1 GHz frequency band used for radio operation
 ti154stack.freqSub1 = "freq863";
 // Phy Type - Configures the PHY frequency modulation and data-rate
 ti154stack.phyType = "phy5kbps";
+var multi_stack_validate = scripting.addModule("/ti/easylink/multi_stack_validate");
 // Name
 ti154stack.radioConfig.$name = "ti_radioconfig_settings_prop0";
 // Name
