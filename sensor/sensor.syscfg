@@ -1,0 +1,141 @@
+// These arguments were used when this file was generated. They will be automatically applied on subsequent loads 
+// via the GUI or CLI invocations. Run CLI with '--help' for additional information on how to override these arguments.
+// @cliArgs --board "/ti/boards/.meta/CC1352P1_LAUNCHXL" --product "simplelink_cc13x2_26x2_sdk@3.30.00.03"
+// @versions {"data":"2019083011","timestamp":"2019083011","tool":"1.2.952","templates":"2019083011"}
+
+var RF = scripting.addModule("/ti/drivers/RF");
+var Power = scripting.addModule("/ti/drivers/Power");
+var CCFG = scripting.addModule("/ti/devices/CCFG");
+var Display = scripting.addModule("/ti/display/Display");
+var Display1 = Display.addInstance();
+var LED = scripting.addModule("/ti/drivers/apps/LED");
+var LED1 = LED.addInstance();
+var LED2 = LED.addInstance();
+var Button = scripting.addModule("/ti/drivers/apps/Button");
+var Button1 = Button.addInstance();
+var Button2 = Button.addInstance();
+var NVS = scripting.addModule("/ti/drivers/NVS");
+var NVS1 = NVS.addInstance();
+var AESCCM = scripting.addModule("/ti/drivers/AESCCM");
+var AESCCM1 = AESCCM.addInstance();
+var ti154stack = scripting.addModule("/ti/ti154stack/ti154stack");
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+RF.$hardware = system.deviceData.board.components["SKY13317-373LF"];
+var Board = scripting.addModule("/ti/drivers/Board");
+var DriverLib = scripting.addModule("/ti/devices/DriverLib");
+// Enable XOSC Cap array modification - Enable modification (delta) to XOSC cap-array
+CCFG.xoscCapArray = true;
+// XOSC Cap Array Delta - Modify the high frequency oscillator cap-array, changing the frequency offset
+CCFG.xoscCapArrayDelta = 0xC1;
+// Enable Bootloader - Enable ROM Bootloader, for flashing from external host
+CCFG.enableBootloader = true;
+// Enable Bootloader Backdoor - When enabling the Bootloader Backdoor, the Bootloader can be activated externally by pulling a pin, even when a valid flash image is present. Note, enabling the backdoor allows an external host to read back a flash image from the device
+CCFG.enableBootloaderBackdoor = true;
+// Bootloader Backdoor DIO - DIO (pin) to trigger Bootloader backdoor, this pin is only needed at boot
+CCFG.dioBootloaderBackdoor = 15;
+// Trigger Level of Bootloader Backdoor - Active high or low on selected DIO to open boot loader backdoor
+CCFG.levelBootloaderBackdoor = "Active low";
+// Name
+CCFG.ccfgTemplate.$name = "ti_devices_CCFGTemplate0";
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+Display1.$hardware = system.deviceData.board.components.XDS110UART;
+// Name - The C/C++ identifier used in applications as the index parameter passed to Display runtime APIs
+Display1.$name = "CONFIG_DISPLAY";
+// Name - The C/C++ identifier used in applications as the index parameter passed to UART runtime APIs
+Display1.uart.$name = "CONFIG_DISPLAY_UART";
+// Name
+Display1.uart.txPinInstance.$name = "CONFIG_PIN_UART_TX";
+// Name
+Display1.uart.rxPinInstance.$name = "CONFIG_PIN_UART_RX";
+// Name
+Display1.uart.uart.$name = "MyUART1";
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+LED1.$hardware = system.deviceData.board.components.LED_RED;
+// Name - The C/C++ identifier used in applications as the index parameter passed to LED runtime APIs
+LED1.$name = "CONFIG_LED_RED";
+// Mode - Select the GPIO mode
+LED1.gpioPin.mode = "Output";
+// Callback Function - The name of the callback function called when this GPIO pin triggers an interrupt, or 'NULL' if it's specified at runtime
+LED1.gpioPin.callbackFunction = "";
+// Name - The C/C++ identifier used in applications as the index parameter passed to GPIO runtime APIs
+LED1.gpioPin.$name = "CONFIG_GPIO_RLED";
+// Name
+LED1.gpioPin.pinInstance.$name = "CONFIG_PIN_RLED";
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+LED2.$hardware = system.deviceData.board.components.LED_GREEN;
+// Name - The C/C++ identifier used in applications as the index parameter passed to LED runtime APIs
+LED2.$name = "CONFIG_LED_GREEN";
+// Mode - Select the GPIO mode
+LED2.gpioPin.mode = "Output";
+// Callback Function - The name of the callback function called when this GPIO pin triggers an interrupt, or 'NULL' if it's specified at runtime
+LED2.gpioPin.callbackFunction = "";
+// Name - The C/C++ identifier used in applications as the index parameter passed to GPIO runtime APIs
+LED2.gpioPin.$name = "CONFIG_GPIO_GLED";
+// Name
+LED2.gpioPin.pinInstance.$name = "CONFIG_PIN_GLED";
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+Button1.$hardware = system.deviceData.board.components["BTN-1"];
+// Name - The C/C++ identifier used in applications as the index parameter passed to Button runtime APIs
+Button1.$name = "CONFIG_BTN_LEFT";
+// Pull - Specifies the internal pull-up or pull-down resistor configuration of this GPIO pin.
+Button1.gpioPin.pull = "Pull Up";
+// Interrupt Trigger - Specifies when or if interrupts are triggered
+Button1.gpioPin.interruptTrigger = "Falling Edge";
+// Name - The C/C++ identifier used in applications as the index parameter passed to GPIO runtime APIs
+Button1.gpioPin.$name = "CONFIG_GPIO_BTN1";
+// Name
+Button1.gpioPin.pinInstance.$name = "CONFIG_PIN_BTN1";
+// Use Hardware - Select the hardware to use, or 'None' to use available header pins
+Button2.$hardware = system.deviceData.board.components["BTN-2"];
+// Name - The C/C++ identifier used in applications as the index parameter passed to Button runtime APIs
+Button2.$name = "CONFIG_BTN_RIGHT";
+// Pull - Specifies the internal pull-up or pull-down resistor configuration of this GPIO pin.
+Button2.gpioPin.pull = "Pull Up";
+// Interrupt Trigger - Specifies when or if interrupts are triggered
+Button2.gpioPin.interruptTrigger = "Falling Edge";
+// Name - The C/C++ identifier used in applications as the index parameter passed to GPIO runtime APIs
+Button2.gpioPin.$name = "CONFIG_GPIO_BTN2";
+// Name
+Button2.gpioPin.pinInstance.$name = "CONFIG_PIN_BTN2";
+// Name - The C/C++ identifier used in applications as the index parameter passed to NVS runtime APIs
+NVS1.$name = "CONFIG_NVSINTERNAL";
+// Name
+NVS1.internalFlash.$name = "ti_drivers_nvs_NVSCC26XX0";
+// Region Base - Base address of the region. Must be aligned on an integer multiple of the sector size.
+NVS1.internalFlash.regionBase = 0x52000;
+// Region Size - Size of the region in bytes. Must be a non-zero multiple of the Sector Size
+NVS1.internalFlash.regionSize = 0x4000;
+// Name
+AESCCM1.$name = "CONFIG_AESCCM_0";
+var DMA = scripting.addModule("/ti/drivers/DMA");
+// Device Role - Configures project type for device configuration
+ti154stack.project = "sensor";
+// Lock Project Type - Sets project and frequency band to read-only. Should always be hidden
+ti154stack.lockProject = true;
+// Sub-1 GHz Frequency - Configures the Sub-1 GHz frequency band used for radio operation
+ti154stack.freqSub1 = "freq863";
+// Name
+ti154stack.radioConfig.$name = "ti_radioconfig_settings_prop0";
+// Name
+ti154stack.radioConfig.codeExportConfig.$name = "ti_radioconfig_code_export_param0";
+var multi_stack_validate = scripting.addModule("/ti/easylink/multi_stack_validate");
+// Suggest solution
+RF.rfAntennaPin0.$suggestSolution = "43";
+// Suggest solution
+RF.rfAntennaPin1.$suggestSolution = "42";
+// Suggest solution
+RF.rfAntennaPin2.$suggestSolution = "41";
+// Suggest solution
+Display1.uart.uart.$suggestSolution = "UART0";
+// Suggest solution
+Display1.uart.uart.txPin.$suggestSolution = "19";
+// Suggest solution
+Display1.uart.uart.rxPin.$suggestSolution = "18";
+// Suggest solution
+LED1.gpioPin.gpioPin.$suggestSolution = "11";
+// Suggest solution
+LED2.gpioPin.gpioPin.$suggestSolution = "12";
+// Suggest solution
+Button1.gpioPin.gpioPin.$suggestSolution = "21";
+// Suggest solution
+Button2.gpioPin.gpioPin.$suggestSolution = "20";
