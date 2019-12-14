@@ -117,6 +117,10 @@ ti154stack.lockProject = true;
 ti154stack.freqSub1 = "freq863";
 // Phy Type - Configures the PHY frequency modulation and data-rate
 ti154stack.phyType = "phy5kbps";
+// Reporting Interval (ms) - Configures interval in ms for how often the device will report data
+ti154stack.reportingInterval = 1500;
+// Polling Interval (ms) - Configures interval in ms for how often a sensor device polls its parent for data
+ti154stack.pollingInterval = 1000;
 // Name
 ti154stack.radioConfig.$name = "ti_radioconfig_settings_prop0";
 // Name
