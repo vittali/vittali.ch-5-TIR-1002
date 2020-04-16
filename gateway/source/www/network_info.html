@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sub 1GHz to WiFi TI Design</title>
+	<link href="css/index.css" rel="stylesheet">
+</head>
+<script>
+	function onClick(){
+	
+			setTimeout(confirmReq,2000);
+			setTimeout(msg,3000);
+			return true;
+	}
+	function msg(){
+		var d = document.getElementById("__SL_P_P.A");
+		alert("1.Check command console and make sure device is connected \n   and take note of the IP Address. \n2.Connect to: " + d.value + "\n3.Type the device IP in the browser address bar. \n\n\n**If Device provision failed, wait for the device network to show, and reconnect to it and try again." );	
+	}
+
+	function confirmReq(){
+		if(window.XMLHttpRequest){
+			var a=new XMLHttpRequest();
+			a.onreadystatechange=function(){};
+			a.open("POST","/api/1/wlan/confirm_req",true);
+			a.send();
+		}
+	}
+
+	function onLoad(){
+		setTimeout(startApScan,2000);
+		setTimeout(updateNetList,7000);
+	}
+
+	function updateNetList(){
+		var a,c,d,b;
+		if(window.XMLHttpRequest){
+			d = document.getElementById("__SL_P_N.L");
+			d.addEventListener("change",ssidSel,false);
+
+			while(d.hasChildNodes()){
+				d.removeChild(d.lastChild)
+			}
+
+			c = document.createElement("option");
+			c.innerHTML = "Refreshing...";
+			c.value = "";
+			d.appendChild(c);
+			a = new XMLHttpRequest();
+			a.onreadystatechange=function(){
+				if(a.readyState == 4 && a.status == 200){
+					var f = a.responseText.split(";");
+					c.innerHTML="Select Network";
+					for(b=0;b<(f.length-1);b++){
+						var e=f[b];
+						if(e[0]!="X"){
+							c = document.createElement("option");
+							c.value = e;
+							c.innerHTML = e.slice(1);
+							d.appendChild(c);
+						}
+					}
+					setTimeout(updateNetList,20000)
+				}
+			};
+			a.open("GET","netlist.txt",true);
+			a.send()
+		}
+	}
+	function ssidSel(){
+		var a = document.getElementById("__SL_P_N.L");
+		document.getElementById("__SL_P_P.A").value = a.value.slice(1);
+		document.getElementById("__SL_P_P.B").value = a.value[0]
+	}
+	function startApScan(){
+		if(window.XMLHttpRequest){
+			var a=new XMLHttpRequest();
+			a.onreadystatechange=function(){};
+			a.open("POST","/api/1/wlan/en_ap_scan",true);
+			a.send("__SL_P_SC1=20&__SL_P_SC2=7");
+		}	
+	}
+</script>
+<body onload="onLoad()" style="background-color: #eee">
+	<div id="d1" style="display: block;">
+		<div class="c">
+		<h2>TI 15.4 Stack - IoT Gateway Setup (Network Configurator)</h2>
+		<form method="POST" name="SimpleLink Configuration" action="api/1/wlan/profile_add">
+		<!-- <input type="hidden" name="__SL_P_S.R" value="cloud.html"> -->
+		<table width="100%">
+			<h3>Connect your iot gateway to your Wi-Fi network, Please select your network from the List.</h3>
+			<tr>
+				<td id="l">SSID</td>
+				<td id="r">
+					<select name="__SL_P_N.L" id="__SL_P_N.L">
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="l"></td>
+				<td id="r">
+					<input type="text" name="__SL_P_P.A" id="__SL_P_P.A">
+				</td>
+			</tr>
+			<tr>
+				<td id="l"> </td>
+				<td id="r">
+					<div><sup>Enter SSID or select from list</sup></div>
+				</td>
+			</tr>
+			<tr>
+				<td id="l">Security Type</td>
+				<td id="r">
+					<select name="__SL_P_P.B" id="__SL_P_P.B">
+						<option value="0">Open</option>
+						<option value="1">WEP</option>
+						<option value="2">WPA/WPA2</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td id="l">Security Key</td>
+				<td id="r"><input type="text" name="__SL_P_P.C" id="__SL_P_P.C"></td>
+			</tr>
+			<tr>
+				<td id="l">Profile Priority</td>
+				<td id="r"><input type="text" name="__SL_P_P.D" id="__SL_P_P.D"></td>
+			</tr>
+			<tr>
+				<td id="l">  </td>
+				<td id="r">
+					<div>
+						<sup>Value between 0-15 (15=highest)</sup>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td id="l">   </td>
+				<td id="r">
+					<input name="Add" type="submit" value="Add" onclick="return onClick();">
+				</td>
+			</tr>
+		</table>
+		</form>
+		</div>
+	</div>
+</body>
+</html>
